@@ -1,0 +1,51 @@
+{{#if @pagination}}
+    <nav class="pagination">
+        {{#if @pagination.previousPage}}
+            <a
+                href="{{@pagination.previousPageUrl}}"
+                class="pagination-first"> &#8249;
+                {{ translate 'partials.pagination.prev' }}
+            </a>
+        {{else}}
+            <span
+                class="pagination-first pagination-inactive"> &#8249;
+                {{ translate 'partials.pagination.prev' }}
+            </span>
+        {{/if}}
+        <div>
+            {{#each @pagination.pages}}
+                {{#isCurrentPage @pagination.currentPage this}}
+                    <a href="#" class="pagination-active">
+                        {{this}}
+                    </a>
+                {{else}}
+                    <a href="{{pageUrl @pagination.context this}}">
+                        {{this}}
+                    </a>
+                {{/isCurrentPage}}
+            {{/each}}
+        </div>
+        {{#if @pagination.nextPage}}
+            <a
+                href="{{@pagination.nextPageUrl}}"
+                 class="pagination__next">
+                {{ translate 'partials.pagination.next' }}
+                 &#8250;
+            </a>
+        {{else}}
+            <span
+                class="pagination-last pagination-inactive">
+                {{ translate 'partials.pagination.next' }}
+                 &#8250;
+            </span>
+        {{/if}}
+    </nav>
+{{/if}}
+
+{{#checkIf @config.custom.paginationType '==' "infinitescroll" }}
+    {{#checkIf @config.custom.paginationInfiniteType '==' "onclick" }}
+        {{#checkIfNone @renderer.isLastPage}}
+            <button class="view-more">{{ translate 'partials.pagination.viewMore' }}</button>   
+        {{/checkIfNone}}
+    {{/checkIf}}   
+{{/checkIf}}

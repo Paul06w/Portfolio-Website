@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Main",
+        "position": "mainMenu",
+        "items": [
+            {
+                "id": 1731663326043,
+                "label": "Home",
+                "title": "",
+                "type": "frontpage",
+                "target": "_self",
+                "rel": "",
+                "link": "empty",
+                "cssClass": "",
+                "isHidden": false,
+                "items": []
+            },
+            {
+                "id": 1731663284661,
+                "label": "About Me",
+                "title": "",
+                "type": "page",
+                "target": "_self",
+                "rel": "",
+                "link": 7,
+                "cssClass": "",
+                "isHidden": false,
+                "items": []
+            },
+            {
+                "id": 1731667313543,
+                "label": "Projects",
+                "title": "",
+                "type": "page",
+                "target": "_self",
+                "rel": "",
+                "link": 5,
+                "cssClass": "",
+                "isHidden": false,
+                "items": []
+            },
+            {
+                "id": 1732273536104,
+                "label": "Hobby",
+                "title": "",
+                "type": "page",
+                "target": "_self",
+                "rel": "",
+                "link": 6,
+                "cssClass": "",
+                "isHidden": false,
+                "items": []
+            }
+        ],
+        "maxLevels": "-1"
+    }
+]

@@ -1,0 +1,212 @@
+{{> head}}
+{{> navbar}}
+<main class="post">
+   {{#if @customHTML.beforePost}}
+      <div class="banner banner--before-content">
+         {{{@customHTML.beforePost }}}
+      </div>
+   {{/if}}
+   {{#post}}
+      <article class="content {{#isFeatured}}content--featured{{/isFeatured}} wrapper">
+         <header class="hero">
+            {{#checkIfAny @config.post.displayAuthor @config.post.displayDate}}
+               <p class="content__meta">
+                  {{#if @config.post.displayAuthor}}
+                     {{#author}}
+                        {{ translate 'post.publishedBy' }}
+                        <a href="{{url}}" rel="author" title="{{name}}">{{name}}</a>
+                     {{/author}}
+                  {{/if}}
+                  {{#if @config.post.displayDate}}
+                     {{ translate 'post.publishedOn' }}
+                     <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">
+                        {{#checkIf @config.custom.formatDate '!=' 'custom'}}
+                           {{date createdAt @config.custom.formatDate}}
+                        {{else}}
+                           {{date createdAt @config.custom.formatDateCustom}}
+                        {{/checkIf}}
+                     </time>
+                  {{/if}}
+               </p>
+            {{/checkIfAny}}
+            <h1 class="content__title">{{title}}</h1>
+         </header>
+         {{#featuredImage}}
+            {{#if url}}               
+              <figure class="content__featured-image {{@config.post.featuredImageWidth}}">
+                 <img
+                    src="{{url}}"
+                    {{#if @config.site.responsiveImages}}                           
+                        {{responsiveImageAttributes 'featuredImage' srcset.post sizes.post}}
+                    {{/if}}
+                    {{ lazyload "eager" }}
+                    height="{{height}}"
+                    width="{{width}}"
+                    alt="{{alt}}">
+
+                 {{#checkIfAny caption credits}}
+                    <figcaption>
+                       {{caption}}
+                       {{credits}}
+                    </figcaption>                      
+                 {{/checkIfAny}}
+              </figure>               
+            {{/if}}
+         {{/featuredImage}}
+         <div class="content__entry">
+            {{{text}}}
+         </div>
+         {{#checkIfAny @config.post.displayLastUpdatedDate @config.post.displayTags @config.post.displayshareButtons @config.post.displayPostNavigation @config.post.displayAuthorBio @config.post.displayRelatedPosts}}
+            <footer class="content__footer">
+               {{#if @config.post.displayLastUpdatedDate}}
+                  {{#if modifiedAt}}
+                     <div class="content__last-updated">
+                        {{ translate 'post.lastUpdatedDate' }}
+
+                        {{#checkIf @config.custom.formatDate '!=' 'custom'}}
+                           {{date modifiedAt @config.custom.formatDate}}
+                        {{else}}
+                           {{date modifiedAt @config.custom.formatDateCustom}}
+                        {{/checkIf}}
+
+                     </div>
+                  {{/if}}
+               {{/if}}
+
+               {{#checkIfAny @config.post.displayTags @config.post.displayShareButtons}}
+                  <div class="content__footer__col">
+                     {{#if @config.post.displayTags}}
+                        {{#if tags}}
+                           <ul class="content__tag">
+                              {{#each tags}}
+                                 <li>
+                                    <a href="{{url}}">{{name}}</a>
+                                 </li>
+                              {{/each}}
+                           </ul>
+                        {{/if}}
+                     {{/if}}
+                     {{#if @config.post.displayShareButtons}}
+                        {{#checkIfAll @plugins.socialSharing @plugins.socialSharing.state}}
+                           <div class="content__share">
+                              {{{@customSocialSharing}}}
+                           </div>
+                        {{else}}
+                           <div class="content__share">
+                              {{> share-buttons}}
+                           </div>
+                        {{/checkIfAll}}          
+                     {{/if}}
+                  </div>
+               {{/checkIfAny}}
+
+               {{#if @config.post.displayPostNavigation}}
+                  {{#checkIfAny ../previousPost ../nextPost}}
+                     <nav class="content__nav">
+                        {{#../previousPost}}
+                           <div class="content__nav__prev">
+                              {{ translate 'post.previousPost' }}
+                              <h5>
+                                 <a href="{{url}}" class="invert" rel="prev">
+                                    {{title}}
+                                 </a>
+                              </h5>
+                           </div>
+                        {{/../previousPost}}
+                        {{#../nextPost}}
+                           <div class="content__nav__next">
+                              {{ translate 'post.nextPost' }}
+                              <h5>
+                                 <a href="{{url}}" class="invert" rel="next">
+                                    {{title}}
+                                 </a>
+                              </h5>
+                           </div>
+                        {{/../nextPost}}
+                     </nav>
+                  {{/checkIfAny}}
+               {{/if}}
+
+               {{#if @config.post.displayAuthorBio}}
+                  {{#author}}
+                     <div class="content__bio">
+                        {{#if avatar}}                          
+                           <img 
+                              src="{{avatarImage.url}}" 
+                              {{ lazyload "eager" }}
+                              height="{{avatarImage.height}}"
+                              width="{{avatarImage.width}}"
+                              alt="{{avatarImage.alt}}">                      
+                        {{/if}}
+                        <div>
+                           {{#if name}}
+                              <h3>
+                                 <a href="{{url}}" class="invert" title="{{name}}">{{name}}</a>
+                              </h3>
+                           {{/if}}
+
+                           {{{description}}}
+                        </div>
+                     </div>
+                  {{/author}}
+               {{/if}}
+
+               {{#if @config.post.displayRelatedPosts}}
+                  {{#if ../relatedPosts}}
+                     <div class="content__related">
+                        <h3 class="u-h5">
+                           {{ translate 'post.relatedPosts' }}
+                        </h3>
+                        <div class="content__related__wrap">
+                           {{#each ../relatedPosts}}
+                              <figure>
+                                 {{#featuredImage}}
+                                    {{#if url}}                                      
+                                      <a href="{{../url}}">
+                                         <img 
+                                             {{#if @config.site.responsiveImages}}                           
+                                                src="{{urlXs}}"
+                                             {{else}}
+                                                src="{{url}}"
+                                             {{/if}}
+                                             {{ lazyload "lazy" }}
+                                             alt="{{alt}}">
+                                      </a>                                       
+                                    {{/if}}
+                                 {{/featuredImage}}
+                                 <figcaption>
+                                    <h4>
+                                       <a href="{{url}}" class="invert">{{title}}</a>
+                                    </h4>
+                                    <time datetime="{{date createdAt 'YYYY-MM-DDTHH:mm'}}">
+                                       {{#checkIf @config.custom.formatDate '!=' 'custom'}}
+                                          {{date createdAt @config.custom.formatDate}}
+                                       {{else}}
+                                          {{date createdAt @config.custom.formatDateCustom}}
+                                       {{/checkIf}}
+                                    </time>
+                                 </figcaption>
+                              </figure>
+                           {{/each}}
+                        </div>
+                     </div>
+                  {{/if}}
+               {{/if}}
+            </footer>
+         {{/checkIfAny}}
+      </article>
+
+      {{#if @config.post.displayComments}}
+         <div class="comments-area wrapper">
+            {{{@commentsCustomCode}}}
+         </div>
+      {{/if}}
+
+      {{#if @customHTML.afterPost}}
+         <div class="banner banner--after-content">
+            {{{@customHTML.afterPost}}}
+         </div>
+      {{/if}}
+   {{/post}}
+</main>
+{{> footer}}

@@ -1,0 +1,68 @@
+{{> head}}
+{{> navbar}}
+<main class="main page page--tags"> 
+   <div class="hero">
+      <h1>{{ translate 'tags.tagsPageTitle' }}</h1>
+      <p>{{ translate "tags.description" tagsNumber }}</p>
+   </div>
+   <div class="main__content">       
+      {{#if @config.custom.layoutTagsSwitcher}}
+         <div class="l-options nomobile">
+            <div class="l-options__item switchers">
+               <button class="switchers__item is-active">
+                  <svg width="20" height="20" fill="currentColor">
+                        <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#switcher-grid"/>
+                  </svg>
+               </button>
+               <button class="switchers__item">
+                  <svg width="20" height="20" fill="currentColor">
+                        <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#switcher-rows"/>
+                  </svg>
+               </button>
+            </div>
+         </div>
+      {{/if}}    
+      <ul class="l-grid {{@config.custom.gridTagsLayout}}">
+         {{#each tags}}
+            <li class="c-card">
+               <div class="c-card__wrapper">
+                  {{#featuredImage}}
+                     {{#if url}}
+                        <figure class="c-card__image {{#checkIf @config.site.mediaLazyLoad '&&' @config.custom.animatedLines}}is-img-loading{{/checkIf}}">
+                           <img
+                              src="{{url}}"
+                              {{#if @config.site.responsiveImages}}
+                                 {{#checkIf @config.custom.gridTagsLayout '==' "l-grid--2" }}
+                                    {{responsiveImageAttributes 'tagImage' srcset sizes.cards-col-2}}
+                                 {{/checkIf}}
+                                 {{#checkIf @config.custom.gridTagsLayout '==' "l-grid--3" }}
+                                    {{responsiveImageAttributes 'tagImage' srcset sizes.cards-col-3}}
+                                 {{/checkIf}}
+                                 {{#checkIf @config.custom.gridTagsLayout '==' "l-grid--4" }}
+                                    {{responsiveImageAttributes 'tagImage' srcset sizes.cards-col-4}}
+                                 {{/checkIf}}
+                              {{/if}}
+                              {{ lazyload "lazy" }}
+                              height="{{height}}"
+                              width="{{width}}"
+                              alt="{{alt}}">
+                        </figure>
+                     {{/if}}
+                  {{/featuredImage}}
+                  <div class="c-card__content">
+                     <h2 class="c-card__title">
+                        <a href="{{url}}" class="invert">
+                           {{name}}
+                        </a>
+                     </h2>                                               
+                     <p class="c-card__meta">
+                        {{postsNumber}} {{ translate "tags.post" (math postsNumber '+' 0)}}
+                     </p>
+                  </div>
+               </div>
+            </li>
+         {{/each}}
+      </ul>
+   </div>
+</main>
+{{> footer}}

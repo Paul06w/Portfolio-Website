@@ -1,0 +1,16 @@
+{{> head}}
+    {{> navbar}}
+     <main class="page page--search">
+        <article class="post align-center wrapper">
+            <header class="hero">
+                <h1>{{ translate 'error.404' }}</h1>
+            </header>
+            <p>{{ translate 'error.message' }}</p>
+            <p> 
+                <a href="{{@website.url}}" class="btn hero__cta btn--icon">
+                  <span>{{ translate 'error.button' }}</span>
+               </a>
+            </p>
+        </article>
+    </main>
+    {{> footer}}

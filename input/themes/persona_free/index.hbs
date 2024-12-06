@@ -1,0 +1,103 @@
+{{> head}}
+{{> navbar}}
+{{#checkIf @config.custom.frontSource '==' "post" }}
+   {{> frontpage-post}}
+{{else}}
+   <main class="main">
+
+      <div class="hero">
+         {{{@config.custom.textHero}}}
+      </div>
+
+      <div class="main__content">
+        
+            {{#checkIfAny @config.custom.filter @config.custom.layoutSwitcher}}
+               <div class="l-options {{#checkIfNone @config.custom.tagFilter}}nomobile{{/checkIfNone}}">
+                  {{#if @config.custom.filter}}
+                     {{#if tags}}
+                        <nav class="l-options__item filter">
+                           {{#if @config.custom.tagFilterHome}}
+                              <a href="{{@website.url}}" class="filter__item invert is-active">{{@config.custom.tagFilterHome}}</a>
+                           {{/if}}
+                           {{#each tags}}
+                              <a href="{{url}}" class="filter__item invert">{{name}}</a>
+                           {{/each}}
+                        </nav>
+                     {{/if}}
+                  {{/if}}
+
+                  {{#if @config.custom.layoutSwitcher}}
+                     <div class="l-options__item switchers">
+                        <button class="switchers__item is-active">
+                           <svg  width="20" height="20" fill="currentColor" >
+                              <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#switcher-grid"/>
+                           </svg>
+                        </button>
+                        <button class="switchers__item">
+                           <svg  width="20" height="20" fill="currentColor" >
+                              <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#switcher-rows"/>
+                           </svg>
+                        </button>
+                     </div>
+                  {{/if}}
+               </div>
+            {{/checkIfAny}}          
+         
+
+
+         {{#if posts}}
+            <div class="l-grid {{@config.custom.gridLayout}}">
+               {{#each posts}}
+                  <article class="c-card">
+                     <div class="c-card__wrapper">
+                        {{#featuredImage}}
+                           {{#if url}}
+                              <figure class="c-card__image {{#checkIf @config.site.mediaLazyLoad '&&' @config.custom.animatedLines}}is-img-loading{{/checkIf}}">
+                                 <img
+                                    src="{{url}}"
+                                    {{#if @config.site.responsiveImages}}
+                                       {{#checkIf @config.custom.gridLayout '==' "l-grid--2" }}
+                                          {{responsiveImageAttributes 'featuredImage' srcset.cards sizes.cards-col-2}}
+                                       {{/checkIf}}
+                                       {{#checkIf @config.custom.gridLayout '==' "l-grid--3" }}
+                                          {{responsiveImageAttributes 'featuredImage' srcset.cards sizes.cards-col-3}}
+                                       {{/checkIf}}
+                                       {{#checkIf @config.custom.gridLayout '==' "l-grid--4" }}
+                                          {{responsiveImageAttributes 'featuredImage' srcset.cards sizes.cards-col-4}}
+                                       {{/checkIf}}
+                                    {{/if}}
+                                    {{ lazyload "lazy" }}
+                                    height="{{height}}"
+                                    width="{{width}}"
+                                    alt="{{alt}}">
+                              </figure>
+                           {{/if}}
+                        {{/featuredImage}}
+                        <div class="c-card__content">
+                           <header>
+                              <h2 class="c-card__title">
+                                 <a href="{{url}}" class="invert">
+                                    {{title}}
+                                 </a>
+                              </h2>
+                           </header>
+
+                           {{#if @config.custom.cardsTag}}
+                              <footer class="c-card__meta">
+                                 {{#if mainTag}}
+                                    <a href="{{ mainTag.url }}" class="c-card__tag">{{ mainTag.name }}</a>
+                                 {{/if}}
+                              </footer>
+                           {{/if}}
+                        </div>
+                     </div>
+                  </article>
+               {{/each}}
+            </div>
+         {{/if}}
+         {{> pagination}}
+      </div>
+
+   </main>
+{{/checkIf}}
+{{> footer}}

@@ -1,0 +1,14 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Portfolio Paul Wasle",
+    "description": "",
+    "home_page_url": "file:///C:\Users\paulw\Documents\Publii\sites\portfolio-paul-wasle\preview",
+    "feed_url": "file:///C:\Users\paulw\Documents\Publii\sites\portfolio-paul-wasle\preview/feed.json",
+    "user_comment": "",
+    "icon": "file:///C:/Users/paulw/Documents/Publii/sites/portfolio-paul-wasle/preview/media/website/240401_Logo_PW_2_white.png",
+    "author": {
+        "name": "Paul Wasle"
+    },
+    "items": [
+    ]
+}

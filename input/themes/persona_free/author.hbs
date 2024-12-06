@@ -1,0 +1,110 @@
+{{> head}}
+{{> navbar}}
+<main class="main page page--author"> 
+   {{#author}}
+      <div class="hero hero--centered">
+         {{#if authorViewConfig.displayAvatar}}
+            {{#if avatar}}
+               <img 
+                  src="{{avatarImage.url}}" 
+                  {{ lazyload "eager" }}
+                  height="{{avatarImage.height}}"
+                  width="{{avatarImage.width}}"
+                  class="page--author__avatar" 
+                  alt="{{avatarImage.alt}}">
+            {{/if}}
+         {{/if}}
+            <h1>
+               {{name}}
+               {{#if authorViewConfig.displayPostCounter}}<sup>({{postsNumber}})</sup>{{/if}}
+            </h1>
+            {{#if authorViewConfig.displayDescription}} 
+               {{{description}}}
+            {{/if}}
+            {{#if authorViewConfig.displayWebsite}}  
+               {{#if website}}  
+                  <p class="page--author__details">
+                     <span>{{ translate 'author.authorOf' postsNumber}} {{ translate "author.post" (math postsNumber '+' 0)}}</span>
+                     <svg height="18" width="18" aria-hidden="true" stroke="var(--gray-1)" stroke-width="2">
+                        <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#website"/>
+                     </svg>
+                     <a href="{{website}}" target="_blank">{{ translate 'author.visitWebsite' }}</a>
+                  </p>
+               {{/if}}
+            {{/if}}
+      </div>
+      {{#if authorViewConfig.displayPostList}}
+         <div class="main__content">
+            {{#if @config.custom.layoutAuthorSwitcher}}
+               <div class="l-options nomobile">
+                  <div class="l-options__item switchers">
+                     <button class="switchers__item is-active">
+                        <svg width="20" height="20" fill="currentColor">
+                              <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#switcher-grid"/>
+                        </svg>
+                     </button>
+                     <button class="switchers__item">
+                        <svg width="20" height="20" fill="currentColor">
+                              <use xlink:href="{{@website.assetsUrl}}/svg/svg-map.svg#switcher-rows"/>
+                        </svg>
+                     </button>
+                  </div>
+               </div>
+            {{/if}}
+
+            {{#if ../posts}}
+               <div class="l-grid {{@config.custom.gridAuthorLayout}}">
+                  {{#each ../posts}}
+                     <article class="c-card">
+                        <div class="c-card__wrapper">
+                           {{#featuredImage}}
+                              {{#if url}}
+                                 <figure class="c-card__image {{#checkIf @config.site.mediaLazyLoad '&&' @config.custom.animatedLines}}is-img-loading{{/checkIf}}">
+                                    <img
+                                       src="{{url}}"
+                                       {{#if @config.site.responsiveImages}}
+                                          {{#checkIf @config.custom.gridAuthorLayout '==' "l-grid--2" }}
+                                             {{responsiveImageAttributes 'featuredImage' srcset.cards sizes.cards-col-2}}
+                                          {{/checkIf}}
+                                          {{#checkIf @config.custom.gridAuthorLayout '==' "l-grid--3" }}
+                                             {{responsiveImageAttributes 'featuredImage' srcset.cards sizes.cards-col-3}}
+                                          {{/checkIf}}
+                                          {{#checkIf @config.custom.gridAuthorLayout '==' "l-grid--4" }}
+                                             {{responsiveImageAttributes 'featuredImage' srcset.cards sizes.cards-col-4}}
+                                          {{/checkIf}}
+                                       {{/if}}
+                                       {{ lazyload "lazy" }}
+                                       height="{{height}}"
+                                       width="{{width}}"
+                                       alt="{{alt}}">
+                                 </figure>
+                              {{/if}}
+                           {{/featuredImage}}
+                           <div class="c-card__content">
+                              <header>
+                                 <h2 class="c-card__title">
+                                    <a href="{{url}}" class="invert">
+                                       {{title}}
+                                    </a>
+                                 </h2>
+                              </header>
+
+                              {{#if @config.custom.cardsTag}}
+                                 <footer class="c-card__meta">
+                                    {{#if mainTag}}
+                                       <a href="{{ mainTag.url }}" class="c-card__tag">{{ mainTag.name }}</a>
+                                    {{/if}}
+                                 </footer>
+                              {{/if}}
+                           </div>
+                        </div>
+                     </article>
+                  {{/each}}
+               </div>
+            {{/if}}
+              {{> pagination}}
+         </div>
+       {{/if}}
+   {{/author}}
+</main>
+{{> footer}}
